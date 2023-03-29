@@ -1,6 +1,5 @@
 from RpaWpp import WppSender
 
-usuario = WppSender()
-usuario.screen_status(False)
+usuario = WppSender(headless=False)
+usuario.screen_headless(True)
 usuario.get_wpp_site()
-usuario.get_page_screenshot()

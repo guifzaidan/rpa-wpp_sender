@@ -11,26 +11,38 @@ import time
 
 class WppSender():
 
-    def __init__(self):
-        self.service = Service(ChromeDriverManager().install())
-        self.options = webdriver.ChromeOptions()
-        self.driver = webdriver.Chrome(service=self.service, options=self.options)
+    @staticmethod
+    def _sleep_time():
+        time.sleep(30)
 
-    def screen_status(self, selection:bool):
-        if selection == False:
-            self.options.add_argument("--headless")
+    def __init__(self, headless:bool):
+        self._service = Service(ChromeDriverManager().install())
+        self._options = webdriver.ChromeOptions()
+        self.screen = self.screen_headless(selection=headless)
+        self._driver = webdriver.Chrome(service=self._service, options=self._options)
+
+    def screen_headless(self, selection:bool):
+        if selection == True:
+            self._options.add_argument("--headless")
+            # self._options.add_argument("disable-infobars")
+            # self._options.add_argument("--disable-extensions")
+            # self._options.add_argument("--disable-dev-shm-usage")
+            # self._options.add_argument("--no-sandbox")
 
     def get_wpp_site(self):
-        self.driver.get("https://web.whatsapp.com/")
+        self._driver.get("https://web.whatsapp.com/")
         self._wait_loading()
 
     def _wait_loading(self):
-        while len(self.driver.find_elements(By.ID, "side")) < 1:
+        while len(self._driver.find_elements(By.ID, "side")) < 1:
             self._get_page_screenshot()
             time.sleep(1)
 
     def _get_page_screenshot(self):
-        self.driver.get_screenshot_as_file("qr_code.png")
+        self._driver.get_screenshot_as_file("qr_code.png")
+
+    def receivers_dataframe():
+        pass        
 
 
 class WppSenderLayout():
